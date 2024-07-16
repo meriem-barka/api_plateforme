@@ -10,7 +10,11 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['book:read']],
+    denormalizationContext: ['groups' => ['book:write']],
+    paginationClientItemsPerPage: true,
+)]  
 class Book
 {
     #[ORM\Id]
@@ -36,6 +40,9 @@ class Book
     #[Assert\Length(exactly: 4)]
     #[ApiProperty(writable: false)]
     private ?string $year = null;
+
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -74,6 +81,18 @@ class Book
     public function setYear(?string $year): static
     {
         $this->year = $year;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
