@@ -19,9 +19,12 @@ class Book
     #[ApiProperty(readable: false)]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
@@ -30,6 +33,7 @@ class Book
     #[ApiFilter(SearchFilter::class, properties: ['title' => 'ipartial'])]
     #[ApiFilter(OrderFilter::class, properties: ['title'])]
 
+    #[Assert\Length(exactly: 4)]
     #[ApiProperty(writable: false)]
     private ?string $year = null;
 
