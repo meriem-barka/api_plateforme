@@ -35,13 +35,12 @@ class Book
     #[ORM\Column(length: 4, nullable: true)]
     #[ApiResource(paginationClientItemsPerPage: true)]
     #[ApiFilter(SearchFilter::class, properties: ['title' => 'ipartial'])]
-    #[ApiFilter(OrderFilter::class, properties: ['title'])]
 
     #[Assert\Length(exactly: 4)]
-    #[ApiProperty(writable: false)]
     private ?string $year = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable:true)]
     private ?Category $category = null;
 
     public function getId(): ?int
