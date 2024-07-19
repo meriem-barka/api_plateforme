@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  hello-world:
     runs-on: ubuntu-latest
     steps:
       - name: Exécuter une action
